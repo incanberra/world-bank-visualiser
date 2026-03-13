@@ -192,6 +192,29 @@ select[multiple] {
   font-weight: 700;
 }
 
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.preset-button {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #0f172a;
+  cursor: pointer;
+  transition: 160ms ease;
+}
+
+.preset-button.active {
+  border-color: transparent;
+  background: linear-gradient(135deg, #0ea5e9, #fb923c);
+  color: #ffffff;
+  font-weight: 700;
+}
+
 .export-button {
   width: 100%;
   background: linear-gradient(135deg, #0f172a, #1d4ed8);
@@ -247,6 +270,7 @@ select[multiple] {
   }
 
   .segmented,
+  .preset-grid,
   .two-up {
     grid-template-columns: 1fr;
   }

@@ -7,6 +7,43 @@ import { fetchCountries, fetchIndicatorData } from "./lib/worldBankApi";
 const DEFAULT_COUNTRIES = ["USA", "CHN", "IND", "AUS"];
 const DEFAULT_YEAR_RANGE = [2014, 2024];
 const DEFAULT_GROUP = "economic";
+const COUNTRY_PRESETS = [
+  {
+    id: "asean5",
+    label: "ASEAN 5",
+    countries: ["IDN", "SGP", "THA", "VNM", "PHL"],
+  },
+  {
+    id: "g7",
+    label: "G7",
+    countries: ["CAN", "FRA", "DEU", "ITA", "JPN", "GBR", "USA"],
+  },
+  {
+    id: "g20",
+    label: "G20",
+    countries: [
+      "ARG",
+      "AUS",
+      "BRA",
+      "CAN",
+      "CHN",
+      "FRA",
+      "DEU",
+      "IND",
+      "IDN",
+      "ITA",
+      "JPN",
+      "MEX",
+      "RUS",
+      "SAU",
+      "ZAF",
+      "KOR",
+      "TUR",
+      "GBR",
+      "USA",
+    ],
+  },
+];
 
 function formatSeriesDetail(country, indicator) {
   return `${country.name} - ${indicator.label}`;
@@ -153,6 +190,15 @@ export default function App() {
   }, [chartType, rows, selectedIndicators]);
 
   const canRender = visibleRows.length > 0;
+  const activeCountryPreset = useMemo(() => {
+    const selectedKey = [...selectedCountries].sort().join("|");
+
+    return (
+      COUNTRY_PRESETS.find(
+        (preset) => [...preset.countries].sort().join("|") === selectedKey,
+      )?.id ?? ""
+    );
+  }, [selectedCountries]);
 
   function handleMultiSelect(event, setter) {
     const values = Array.from(event.target.selectedOptions, (option) => option.value);
@@ -168,6 +214,10 @@ export default function App() {
   function handleGroupChange(groupId) {
     setSelectedGroup(groupId);
     setSelectedIndicators(INDICATOR_GROUPS[groupId].defaultSelected);
+  }
+
+  function handleCountryPreset(presetCountries) {
+    setSelectedCountries(presetCountries);
   }
 
   return (
@@ -234,6 +284,23 @@ export default function App() {
             </select>
             <small>{activeGroup.description} Heat map uses the first selected indicator.</small>
           </label>
+
+          <div className="field">
+            <span>Country presets</span>
+            <div className="preset-grid">
+              {COUNTRY_PRESETS.map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  className={`preset-button${activeCountryPreset === preset.id ? " active" : ""}`}
+                  onClick={() => handleCountryPreset(preset.countries)}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+            <small>G20 uses the 19 individual member countries available in the World Bank country list.</small>
+          </div>
 
           <label className="field">
             <span>Countries</span>

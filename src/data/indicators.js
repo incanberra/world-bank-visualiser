@@ -119,6 +119,12 @@ export const ECONOMIC_INDICATORS = [
     unit: "people",
     description: "Total military personnel, including active service members.",
   },
+  {
+    id: "MS.MIL.XPND.GD.ZS",
+    label: "Military expenditure (% of GDP)",
+    unit: "%",
+    description: "Military spending relative to total economic output.",
+  },
 ];
 
 export const CLIMATE_INDICATORS = [
@@ -248,7 +254,7 @@ export const INDICATOR_GROUPS = {
   economic: {
     id: "economic",
     label: "Economic indicators",
-    description: "20 indicators focused on economic scale, trade, industrial depth, infrastructure, and social capacity.",
+    description: "Around 20 indicators focused on economic scale, trade, industrial depth, infrastructure, social capacity, and defense spending.",
     indicators: ECONOMIC_INDICATORS,
     defaultSelected: ["NY.GDP.MKTP.CD", "FP.CPI.TOTL.ZG"],
   },
